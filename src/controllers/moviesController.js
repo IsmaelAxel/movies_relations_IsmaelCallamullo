@@ -24,7 +24,9 @@ const moviesController = {
             })
     },
     'detail': (req, res) => {
-        db.Movie.findByPk(req.params.id)
+        db.Movie.findByPk(req.params.id,{
+            include: ['actors']
+        })
             .then(movie => {
                 res.render('moviesDetail.ejs', {movie});
             });
@@ -73,7 +75,8 @@ const moviesController = {
                 release_date,
                 awards,
                 length,
-                genre_id
+                genre_id,
+                image: req.file ? req.file.filename : null
             })
                 .then(() => {
                     return res.redirect('/movies')
@@ -161,7 +164,20 @@ const moviesController = {
 
     },
     destroy: function (req,res) {
-         db.Movie.destroy({
+        db.Actor_Movie.destroy({
+            where:{
+                movie_id: req.params.id
+            }
+        }).then(() => {
+            db.Actor.update({
+                favorite_movie_id: null
+            },{
+                where:{
+                    favorite_movie_id: req.params.id
+                }
+            })
+        }).then(() => {
+            db.Movie.destroy({
                 where : {
                     id : req.params.id
                 }
@@ -169,6 +185,9 @@ const moviesController = {
                 console.log(movie)
                 return res.redirect('/movies')
             })
+        })
+        .catch((error) => console.log(error))
+        
     }
 }
 
