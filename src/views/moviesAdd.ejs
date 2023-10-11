@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie add</title>
-    <link rel='stylesheet' href='/css/style.css' />
-</head>
+<%- include('partials/head',{
+    title: 'Crear una pelicula'
+}) %>
 
 <body>
-    <figure>
-        <img src="/img/logo-DH.png" alt="Logo Digital House">
-      </figure>
-    <h1 class="titulo">Agregar Película</h1>
-    <br>
-    <section class="formulario">
-        <form action="/movies/create" enctype="multipart/form-data" method="POST">
-            <label for="title">Title </label>
-            <p><input type="text" name="title" id="" required></p>
-            <label for="rating">Rating </label>
-            <p><input type="number" name="rating" id="" required> </p>
-            <label for="awards">Awards </label>
-            <p><input type="number" name="awards" id="" required></p>
-            <label for="release_date">Release date </label>
-            <p><input type="date" name="release_date" id="" required></p>
-            <label for="length">Length </label>
-            <p><input type="number" name="length" id="" required></p>
-            <label for="genreID">Genre </label>
-            <label for="image">Imagen</label>
-            <input type="file" name="image">
-            <p>
-                <select name="genre_id" id="" required>
-                    <option value="" disabled selected>- select genre - </option>
-                    <% genres.forEach(genre => { %>
-                    <option value="<%= genre.id %>"><%= genre.name %></option>
-                    <% }); %>
-                </select>
-            </p>
-            <div class="mb-3 col-12">
+    <%- include('partials/header') %>
+    <div class="container mt-5">
+        <h1>Crear una pelicula</h1>
+        <hr>
+        <form class="row g-3" action="/movies/create" enctype="multipart/form-data" method="POST">
+            <div class="col-md-12">
+              <label for="title" class="form-label">Titulo</label>
+              <input type="text" class="form-control"  name="title" id="title">
+            </div>
+            <div class="col-md-4">
+              <label for="rating" class="form-label">Rating</label>
+              <input type="number" class="form-control" name="rating" id="rating">
+            </div>
+            <div class="col-md-4">
+                <label for="awards" class="form-label">Premios</label>
+                <input type="number" class="form-control"  name="awards" id="awards">
+              </div>
+            <div class="col-md-4">
+              <label for="release_date" class="form-label">Fecha de lanzamiento</label>
+              <input type="date" class="form-control" name="release_date" id="release_date">
+            </div>
+            <div class="col-md-4">
+              <label for="length" class="form-label">Duración</label>
+              <input type="number" class="form-control" name="length" id="length">
+            </div>
+            <div class="col-md-4">
+              <label for="inputState" class="form-label">Seleccionar el genero</label>
+              <select id="inputState" name="genre_id" class="form-select">
+                <option value="" disabled selected hidden>Seleccionar genero</option>
+                <% genres.forEach(genre => { %>
+                <option value="<%= genre.id %>"><%= genre.name %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="image" class="form-label">Portada de pelicula</label>
+              <input type="file" class="form-control" name="image" id="image">
+            </div>
+            <h3>Seleccionar Actor/Actores</h3>
+            <hr>
+            <div class="mb-3 d-flex g-4 row col-12">
                 <% actors.forEach(actor => { %>
                     <div class="col-12 col-md-3 col-lg-2">
                         <div class="form-check">
@@ -49,13 +58,10 @@
                     </div>
                 <% }) %>
             </div>
-            <br>
-            <p> <button class="botonAgregar" type="submit">Agregar</button>
-            
-            <a  class="botonVolver" href="/movies">Listado de Películas</a></p>
-        </form>
-    </section>
-    
+            <div class="col-12 mb-5 flex-row-reverse d-flex">
+                <button type="submit" class="btn btn-primary">Crear producto</button>
+              </div>
+          </form>
+    </div> 
 </body>
-
 </html>
