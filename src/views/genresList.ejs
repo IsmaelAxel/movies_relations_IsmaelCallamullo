@@ -7,7 +7,7 @@
     <div class="container col-lg-8 m-auto">
     <div class="d-flex justify-content-between mt-3 mb-3 align-items-center">
         <h1>LISTADO DE GENEROS</h1>
-        <a href="/movies/create">
+        <a href="#">
             <button class="btn btn-lg btn-primary">
                 Agregar un genero
             </button>
@@ -30,37 +30,37 @@
                 <th scope="row">
                     <%= genre.id %>
                 </th>
-                <td>
+                <td scope="row">
                     <%= genre.name %>
                 </td>
-                <td>
+                <td scope="row">
                     <%= genre.ranking %>
                 </td>
-                <td>
+                <td scope="row">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" <%= genre.active && 'checked' %> id="">
                       </div>
                 </td>
-                <td>
+                <td scope="row">
                     <div class="d-flex gap-2">
                         <a href="/genres/detail/<%= genre.id %>">
                             <button class="btn btn-secondary">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </a>
-                        <a href="/genres/edit/<%= genre.id %>">
+                        <a href="#">
                             <button class="btn btn-success">
                                 <i class="fas fa-edit"></i>
                             </button>
                         </a>
-                        <a href="/genres/delete/<%= genre.id %>">
+                        <a href="#">
                             <button class="btn btn-danger">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </a>
                     </div>
                 </td>
-                <td>
+                <td scope="row">
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                           <h2 class="accordion-header">

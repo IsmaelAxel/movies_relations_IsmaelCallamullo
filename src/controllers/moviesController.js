@@ -57,18 +57,26 @@ const moviesController = {
     },
     //Aqui dispongo las rutas para trabajar con el CRUD
     add: function (req, res) {
-        db.Genre.findAll({
+        const genres = db.Genre.findAll({
             order: ['name']
         })
-        .then(genres => {
-            return res.render('moviesAdd',{
-                genres
+        const actors = db.Actor.findAll({
+            order: [
+                ['first_name'],
+                ['last_name']
+            ]
+        })
+        Promise.all([actors,genres]).then(([actors,genres])=>{
+            return res.render("moviesAdd",{
+                genres,
+                actors
             })
         })
         .catch(error => console.log(error))
     },
     create: function (req,res) {
             const {title, rating, release_date, awards, length, genre_id} = req.body
+            const actors = [req.body.actors].flat();
             db.Movie.create({
                 title: title.trim(),
                 rating, 
@@ -78,8 +86,23 @@ const moviesController = {
                 genre_id,
                 image: req.file ? req.file.filename : null
             })
-                .then(() => {
-                    return res.redirect('/movies')
+                .then((movie) => {
+                    if(actors){
+                        const actorsDB = actors.map(actor => {
+                            return {
+                                movie_id: movie.id,
+                                actor_id: actor
+                            }
+                        })
+                        db.Actor_Movie.bulkCreate(actorsDB,{
+                            validate: true
+                        }).then(()=>{
+                            console.log('Actores agregados')
+                            return res.redirect('/movies')
+                        })
+                    } else {
+                        return res.redirect('/movies')
+                    }
                 })
                 .catch(error => console.log(error))
     },
